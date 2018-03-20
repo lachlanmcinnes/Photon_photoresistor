@@ -1,0 +1,34 @@
+//#include <string.h>
+
+int photoresistor = A0; // This is where your photoresistor is plugged in. The other side goes to the "power" pin (below).
+
+int inpower = A5; // This is the other end of your photoresistor. The other side is plugged into the "photoresistor" pin (above).
+
+int led = D7;
+
+void setup() {
+
+    // First, declare all of our pins. This lets our device know which ones will be used for outputting voltage, and which ones will read incoming voltage.
+    pinMode(led,OUTPUT); // Our LED pin is output (lighting up the LED)
+    pinMode(photoresistor,INPUT);  // Our photoresistor pin is input (reading the photoresistor)
+    pinMode(inpower,OUTPUT); // The pin powering the photoresistor is output (sending out consistent power)
+
+    // Next, write one pin of the photoresistor to be the maximum possible, so that we can use this for power.
+    digitalWrite(inpower,HIGH);
+}
+
+void loop() {
+
+    digitalWrite(led, HIGH); 
+    // check to see what the value of the photoresistor is and store it in the int variable analogvalue
+    //int photoResistor2 = analogRead(photoresistor);
+    int photoResistor2 = analogRead(photoresistor);
+    
+    Particle.publish("photoResistor2", String(photoResistor2), PRIVATE);
+    delay(15000); 
+    
+    digitalWrite(led, LOW);    // Turn OFF the LED
+    delay(15000); 
+
+}
+
